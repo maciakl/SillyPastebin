@@ -1,20 +1,16 @@
-<?php
-
-require "vendor/autoload.php";
-require "PasteController.php";
-
-//use RedBean_Facade as R;
+<?php require "vendor/autoload.php";
 
 $uri = $_SERVER['REQUEST_URI'];
 
-$pasteCtrl = new PasteController();
+$pasteCtrl = new SillyPastebin\Controller\PasteController();
+$errorCtrl = new SillyPastebin\Controller\ErrorController();
 
 if($uri == '/') {
     $pasteCtrl->showPasteForm();
 } elseif($uri == "/paste") {
     $pasteCtrl->addNewPaste();
 } elseif($pasteCtrl->isValidPasteURI($uri)) {
-    $pasteCtrl->showPasteContents($uri);
+    $pasteCtrl->showPasteContent($uri);
 } else {
-  $paste->show404();
+  $errorCtrl->show404();
 }

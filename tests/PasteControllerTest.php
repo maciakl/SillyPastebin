@@ -1,8 +1,5 @@
 <?php
-require "vendor/autoload.php";
-require "PasteController.php";
-
-//require_once 'PHPUnit/Extensions/OutputTestCase.php';
+require_once "vendor/autoload.php";
 
 class PasteControllerTest extends PHPUnit_Framework_TestCase
 {
@@ -10,11 +7,13 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->ctrl = new PasteController();
+        $this->ctrl = new \SillyPastebin\Controller\PasteController();
     }
 
     public function testObjectInitialization()
     {
+        $this->assertNotNull($this->ctrl);
+        $this->assertInstanceOf('\SillyPastebin\Controller\PasteController', $this->ctrl);
         $this->assertObjectHasAttribute("twig", $this->ctrl);
     }
 
@@ -40,5 +39,47 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
 
         $temp = $this->ctrl->isValidPasteURI("/234/343/34");
         $this->AssertFalse($temp);
+        
+        $temp = $this->ctrl->isValidPasteURI("/-234");
+        $this->AssertFalse($temp);
     }
+
+    public function testAddNewPasteWithValidString()
+    {
+        $_POST["content"] = "some text to be pasted";
+        $temp = $this->ctrl->addNewPaste();
+        $this->assertNotNull($temp);
+        $this->assertInternalType('integer', $temp);
+    }
+
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage Submitted content empty or null
+     */
+    public function testAddNewPasteWithNull()
+    {
+        $_POST["content"] = null;
+        $temp = $this->ctrl->addNewPaste();
+    }
+
+    public function testShowPasteContentWith1()
+    {
+        $this->expectOutputRegex("/some text to be pasted/");
+        $this->ctrl->showPasteContent("/1");
+    }
+
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage Invalid paste ID
+     */
+    public function testShowPasteContentWithInvalidUri()
+    {
+        $this->ctrl->showPasteContent("foo");
+    }
+
+    public function testShowPasteContentWith9999()
+    {
+        $this->expectOutputRegex("/No such paste/");
+        $this->ctrl->showPasteContent("/9999");
+    }       
 }

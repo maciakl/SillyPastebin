@@ -1,17 +1,14 @@
-<?php
+<?php namespace SillyPastebin\Controller;
+
+use RedBean_Facade as R;
 
 class PasteController
 {
-
     private $twig;
 
     public function __construct()
     {
-        $loader = new Twig_Loader_Filesystem('templates');
-        $this->twig = new Twig_Environment($loader, array('debug' => true, 
-                                                            'autoescape' => true, 
-                                                            'auto_reload' => true));
-
+        $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();
     }
 
     public function showPasteForm() 
@@ -22,16 +19,32 @@ class PasteController
 
     public function addNewPaste()
     {
+        if(empty($_POST["content"]))
+            throw new \InvalidArgumentException("Submitted content empty or null");
 
+        R::setup();
+        $paste = R::dispense("paste");
+
+        $paste->content = $_POST["content"];
+
+        return R::store($paste);
     }
 
     public function showPasteContent($uri)
     {
+        if(!$this->isValidPasteURI($uri))
+            throw new \InvalidArgumentException("Invalid paste ID");
+        else
+        {
+            $pasteID = substr($uri, 1);
+            R::setup();
+            $paste = R::load("paste", $pasteID);
 
-    }
+            $template = $this->twig->loadTemplate('show.html');
+            echo $template->render(array('pasteID' => $pasteID,
+                                            'content' => $paste->content));
 
-    public function show404()
-    {
+        }
 
     }
 
@@ -50,7 +63,7 @@ class PasteController
         {
             $tmp = substr($uri, 1);
 
-            if(is_numeric($tmp))
+            if(is_numeric($tmp) && $tmp > 0)
                 return true;
         }
 

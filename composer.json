@@ -2,5 +2,11 @@
     "require": {
         "twig/twig": "1.*",
         "gabordemooij/redbean": "dev-master"
-    }
+    },
+
+    "autoload": {
+        "psr-0": {
+            "SillyPastebin":       "src/"
+        } 
+   } 
 }

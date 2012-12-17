@@ -1,5 +1,5 @@
 {
-    "hash": "5ab76ebf300d6dd07eb458e30accf031",
+    "hash": "e7a484dc16d5e275468516a2437d12cf",
     "packages": [
         {
             "name": "gabordemooij/redbean",
@@ -7,18 +7,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gabordemooij/redbean.git",
-                "reference": "fc64ee77dd5a4873871670d2c7a25653138fbee7"
+                "reference": "10234e2dac4a0b5e749883e16cad6f370c0a9dea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/gabordemooij/redbean/archive/fc64ee77dd5a4873871670d2c7a25653138fbee7.zip",
-                "reference": "fc64ee77dd5a4873871670d2c7a25653138fbee7",
+                "url": "https://github.com/gabordemooij/redbean/archive/10234e2dac4a0b5e749883e16cad6f370c0a9dea.zip",
+                "reference": "10234e2dac4a0b5e749883e16cad6f370c0a9dea",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
             },
-            "time": "2012-12-11 20:57:20",
+            "time": "2012-12-16 16:41:56",
             "type": "library",
             "installation-source": "source",
             "autoload": {
