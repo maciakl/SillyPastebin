@@ -17,19 +17,34 @@ class PasteController
         echo $template->render(array('title' => 'Paste It'));
     }
 
-    public function addNewPaste()
+    /**
+     * Adds new paste to the database.
+     *
+     * @param string $content a new paste content
+     * @throws InvalidArgumentException if $content is null or empty
+     * @return integer valid pasteID (insertion id) 
+     */
+    public function addNewPaste($content)
     {
-        if(empty($_POST["content"]))
-            throw new \InvalidArgumentException("Submitted content empty or null");
+        if(empty($content))
+            throw new \InvalidArgumentException("Paste content cannot be empty or null");
+        else
+        {
+            R::setup();
+            $paste = R::dispense("paste");
 
-        R::setup();
-        $paste = R::dispense("paste");
+            $paste->content = $content;
 
-        $paste->content = $_POST["content"];
-
-        return R::store($paste);
+            return R::store($paste);
+        }
     }
 
+    /**
+     * Renders a paste as a web page.
+     *
+     * @param string $uri A valid URI with a paste address
+     * @throws InvalidArgumentException if the URI is invalid
+     */
     public function showPasteContent($uri)
     {
         if(!$this->isValidPasteURI($uri))

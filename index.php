@@ -8,7 +8,7 @@ $errorCtrl = new SillyPastebin\Controller\ErrorController();
 if($uri == '/') {
     $pasteCtrl->showPasteForm();
 } elseif($uri == "/paste") {
-    $pasteCtrl->addNewPaste();
+    $pasteCtrl->addNewPaste($_POST["content"]);
 } elseif($pasteCtrl->isValidPasteURI($uri)) {
     $pasteCtrl->showPasteContent($uri);
 } else {

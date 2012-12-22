@@ -46,20 +46,19 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
 
     public function testAddNewPasteWithValidString()
     {
-        $_POST["content"] = "some text to be pasted";
-        $temp = $this->ctrl->addNewPaste();
+        $content = "some text to be pasted";
+        $temp = $this->ctrl->addNewPaste($content);
         $this->assertNotNull($temp);
         $this->assertInternalType('integer', $temp);
     }
 
     /**
      * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage Submitted content empty or null
      */
     public function testAddNewPasteWithNull()
     {
-        $_POST["content"] = null;
-        $temp = $this->ctrl->addNewPaste();
+        $content = null;
+        $temp = $this->ctrl->addNewPaste($content);
     }
 
     public function testShowPasteContentWith1()
