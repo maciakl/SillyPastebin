@@ -8,7 +8,20 @@ $errorCtrl = new SillyPastebin\Controller\ErrorController();
 if($uri == '/') {
     $pasteCtrl->showPasteForm();
 } elseif($uri == "/paste") {
-    $pasteCtrl->addNewPaste($_POST["content"]);
+    try
+    {
+        if(!empty($_POST["content"]))
+        {
+            $pasteID = $pasteCtrl->addNewPaste($_POST["content"]);
+            $pasteCtrl->showThankYou($pasteID);
+        }
+        else
+            $errorCtrl->showGenericError("Paste content cannot be empty.");
+    }
+    catch (InvalidArgumentException $e)
+    {
+        $errorCtrl->showGenericError($e->getMessage());
+    }
 } elseif($pasteCtrl->isValidPasteURI($uri)) {
     $pasteCtrl->showPasteContent($uri);
 } else {

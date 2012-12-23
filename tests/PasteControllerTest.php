@@ -10,6 +10,12 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
         $this->ctrl = new \SillyPastebin\Controller\PasteController();
     }
 
+    public static function tearDownAfterClass()
+    {
+        if(file_exists("/tmp/red.db"))
+            unlink("/tmp/red.db");
+    }
+
     public function testObjectInitialization()
     {
         $this->assertNotNull($this->ctrl);
@@ -80,5 +86,16 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
     {
         $this->expectOutputRegex("/No such paste/");
         $this->ctrl->showPasteContent("/9999");
-    }       
+    }
+
+    public function testShowThankYouWithValidContent()
+    {
+        $content = "some content";
+        $temp = $this->ctrl->addNewPaste($content);
+        
+        $this->expectOutputRegex("/Your paste is available here: <a href='\/$temp'>#$temp<\/a>/");     
+        $this->ctrl->showThankYou($temp);
+    }
+    
+
 }

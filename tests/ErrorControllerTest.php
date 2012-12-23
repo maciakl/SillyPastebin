@@ -22,4 +22,16 @@ class ErrorControllerTest extends PHPUnit_Framework_TestCase
         $this->expectOutputRegex("/<h1>404<\/h1>/");
         $this->err->show404();
     }
+
+    public function testShowGenericErrorWithValidMessage()
+    {
+        $this->expectOutputRegex("/my test message/");
+        $this->err->showGenericError("my test message");
+    }
+
+    public function testShowGenericErrorWithNull()
+    {
+        $this->expectOutputRegex("/Unexpected error./");
+        $this->err->showGenericError(null);
+    }
 }

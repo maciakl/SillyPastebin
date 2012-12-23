@@ -40,6 +40,16 @@ class PasteController
     }
 
     /**
+     * Renders a thank-you message with a link to a newly created paste
+     *
+     * @param integer $pasteID - a valid paste ID
+     */
+    public function showThankYou($pasteID)
+    {
+        echo $this->twig->render("thanks.html", array('pasteID' => $pasteID));
+    }
+
+    /**
      * Renders a paste as a web page.
      *
      * @param string $uri A valid URI with a paste address
@@ -55,9 +65,15 @@ class PasteController
             R::setup();
             $paste = R::load("paste", $pasteID);
 
-            $template = $this->twig->loadTemplate('show.html');
-            echo $template->render(array('pasteID' => $pasteID,
-                                            'content' => $paste->content));
+            if(empty($paste->content))
+            {
+                echo $this->twig->render("nosuchpaste.html", array('pasteID' => $pasteID));
+            }
+            else
+            {
+                echo $this->twig->render("show.html", array('pasteID' => $pasteID,
+                                                            'content' => $paste->content));
+            }
 
         }
 

@@ -15,4 +15,12 @@ class ErrorController
         $template = $this->twig->loadTemplate("404.html");
         echo $template->render(array());
     }
+
+    public function showGenericError($errorMessage)
+    {
+        $message = empty($errorMessage) ? "Unexpected error." : $errorMessage;
+
+        $template = $this->twig->loadTemplate("error.html");
+        echo $template->render(array('errorMessage' => $message));
+    }
 }
