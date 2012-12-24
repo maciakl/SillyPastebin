@@ -108,6 +108,23 @@ Please note that if running in dev mode the SQLite database can sometimes get lo
 
 You should not use dev-mode and SQLite for production, so this will only wipe out your test data which should not be a problem.
 
+Screenshots
+-----------
+
+Because a picture is worth a thousand words.
+
+Here is the actual pastebin form:
+
+![Paste Form][pf]
+
+Here is how a PHP paste will look like:
+
+![Actual Paste][pd]
+
+I'm not screenshoting error messages because they're very basic and all look the same.
+
+There is no paste list. There is no search feature. You have to remember your paste address. That's why it is a silly pastebin. You probably should not use it for anything serious.
+
 
 [1]: http://getcomposer.com
 [2]: http://twig.sensiolabs.org/
@@ -115,3 +132,6 @@ You should not use dev-mode and SQLite for production, so this will only wipe ou
 [4]: http://qbnz.com/highlighter/
 [5]: https://github.com/sebastianbergmann/phpunit/
 [6]: http://codeception.com/
+
+[pf]: http://i.imgur.com/KsJa8.png "Paste Form"
+[pd]: http://i.imgur.com/FnJIT.png "Paste Display"
