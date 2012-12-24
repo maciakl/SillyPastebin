@@ -37,10 +37,16 @@ You do not need to download any of these. Composer will handle these dependencie
 
 There are also two development time dependencies not handled by Composer. These are:
 
-* [PHPUnit][5]
+* [PHPUnit][5] 3.6 (or higher)
 * [Codeception][6]
 
-You may want to download these if you're planning to modify the code and run the tests.
+You may want to download these if you're planning to modify the code and run the tests. If you are having issues getting PHPUnit 3.6 to work on Ubuntu [follow this guide][10].
+
+Silly pastebin is also commented using the PHPDoc standard. If you want to generate the html documentation you will need to get the following:
+
+* [PHPDocumentor2][9]
+
+If you install via Pear on Ubuntu you may also need to grab `php5-xsl` and `graphviz` packages in order to make it work.
 
 Installation
 ------------
@@ -97,12 +103,12 @@ To run the unit tests run the following command from the project root:
 
     phpunit tests
 
-To run acceptance tests run the following command from the project root:
+To run acceptance tests for the first time run the following command from the project root:
 
     codecept build
     codecept run
 
-Please note that if running in dev mode the SQLite database can sometimes get locked for writing due to various reasons. This causes tests to fail with an appropriate error message. If that happens I recommend deleting the database:
+Please note that if running in dev-mode the SQLite database can sometimes get locked for writing due to various reasons. This causes tests to fail with an appropriate error message. If that happens I recommend deleting the database:
 
     sudo rm /tmp/red.db
 
@@ -121,10 +127,37 @@ Here is how a PHP paste will look like:
 
 ![Actual Paste][pd]
 
-I'm not screenshoting error messages because they're very basic and all look the same.
-
 There is no paste list. There is no search feature. You have to remember your paste address. That's why it is a silly pastebin. You probably should not use it for anything serious.
 
+Deploying to Production
+-----------------------
+
+If you want to deploy Silly Pastebin into live production environment you probably should:
+
+* Set `production_mode_enabled` to `true` in `src/SillyPastebin/Config.php` to freeze the database schema.
+* Prune the project directory:
+    * Delete `.git/` folder
+    * Delete `.gitignore` file
+    * Delete `tests/` folder
+    * Delete `codception.yaml` file
+    * Delete `composer.json` and `composer.lock` files
+    * Delete `readme.markdown` file
+* Prune the `vendor/` directory deleting test, doc and git folders
+* Pray! 
+
+Silly Pastebin has no spam filtering and no CAPTCHA. You gon' get spammed son. You have been warned.
+
+Future Work
+-----------
+
+Here are things I might add in the future in the order of importance:
+
+* CAPTCHA support (maybe using [reCAPTCHA-PHP5][7])
+* Spam filtering (maybe with [Akismet-PHP5][8])
+* Paste search feature
+* See recent pastes feature
+
+These may or may not happen, depending on whether or not the implementation is worth blogging about.
 
 [1]: http://getcomposer.com
 [2]: http://twig.sensiolabs.org/
@@ -132,6 +165,10 @@ There is no paste list. There is no search feature. You have to remember your pa
 [4]: http://qbnz.com/highlighter/
 [5]: https://github.com/sebastianbergmann/phpunit/
 [6]: http://codeception.com/
+[7]: https://github.com/AlekseyKorzun/reCaptcha-PHP-5
+[8]: http://www.achingbrain.net/akismet
+[9]: http://www.phpdoc.org/
+[10]: http://www.terminally-incoherent.com/blog/2012/12/19/php-like-a-pro-part-2/
 
 [pf]: http://i.imgur.com/KsJa8.png "Paste Form"
 [pd]: http://i.imgur.com/FnJIT.png "Paste Display"
