@@ -10,16 +10,23 @@ class PasteController
     {
         $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();
         
-        $host = \SillyPastebin\Config::mysql_host;
-        $db = \SillyPastebin\Config::mysql_db;
-        $user = \SillyPastebin\Config::mysql_user;
-        $pwd = \SillyPastebin\Config::mysql_password;
+        if(\SillyPastebin\Config::dev_mode_enabled)
+            R::setup();
+        else
+        {
+            $host = \SillyPastebin\Config::mysql_host;
+            $db = \SillyPastebin\Config::mysql_db;
+            $user = \SillyPastebin\Config::mysql_user;
+            $pwd = \SillyPastebin\Config::mysql_password;
 
-        R::setup('mysql:host='.$host.';dbname='.$db, $user, $pwd);
+            R::setup('mysql:host='.$host.';dbname='.$db, $user, $pwd);
+        }
+        
+        if(\SillyPastebin\Config::production_mode_enabled)
+            R::freeze( true );
+
         \RedBean_ModelHelper::setModelFormatter(new \SillyPastebin\Helper\ModelFormatter());
 
-        // uncomment when ready for production
-        //R::freeze( true );
     }
 
     public function showPasteForm() 
