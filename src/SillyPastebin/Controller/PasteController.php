@@ -10,11 +10,22 @@ use RedBean_Facade as R;
 /**
  * Handles adding new pastes, and displaying existing pastes
  *
+ * @uses \SillyPastebin\Helper\TwigFactory
+ * @uses \SillyPastebin\Config
  */
 class PasteController
 {
+    /**
+     * Twig templating engine environment. Initialized in constructor.
+     */
     private $twig;
 
+    /**
+     * Default constructor. 
+     * 
+     * Initializes the Twig environment and sets up the database based
+     * on the config vars found in Config.php
+     */
     public function __construct()
     {
         $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();

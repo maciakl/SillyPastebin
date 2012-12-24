@@ -2,11 +2,19 @@
 
 /**
  * Handles displaying errors not directly related to pastes.
+ *
+ * @uses \SillyPastebin\Helper\TwigFactory
  */
 class ErrorController
 {
+    /**
+     * Twig templating engine environment. Initialized in constructor.
+     */
     private $twig;
 
+    /**
+     * Default constructor. Initializes the Twig environment.
+     */
     public function __construct()
     {
         $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();
