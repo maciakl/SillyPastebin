@@ -1,5 +1,8 @@
 <?php namespace SillyPastebin;
-
+/**
+ * Global configuration file.
+ *
+ */
 class Config
 {
     /**

@@ -1,7 +1,16 @@
 <?php namespace SillyPastebin\Controller;
 
+// we're using RedBean installed via Composer. In the Composer version
+// the R class is not available. R class is an auto-generated class
+// which includes entire RedBean codebase, and uses RedBean_Facade as
+// user interface. Sice we don't have that we just rename RedBean_Facade
+// as R to keep the usage consistent with RedBean documentation
 use RedBean_Facade as R;
 
+/**
+ * Handles adding new pastes, and displaying existing pastes
+ *
+ */
 class PasteController
 {
     private $twig;
@@ -9,11 +18,18 @@ class PasteController
     public function __construct()
     {
         $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();
-        
+
         if(\SillyPastebin\Config::dev_mode_enabled)
+        {
+            // in dev mode we use SQLite instead of MySQL
+            // the SQLite db is located in /tmp/red.db
+            // note - this mode sometimes locks
             R::setup();
+        }
         else
         {
+            // these values are defined in src/SillyPastebin/Config.php
+
             $host = \SillyPastebin\Config::mysql_host;
             $db = \SillyPastebin\Config::mysql_db;
             $user = \SillyPastebin\Config::mysql_user;
@@ -21,14 +37,22 @@ class PasteController
 
             R::setup('mysql:host='.$host.';dbname='.$db, $user, $pwd);
         }
-        
+
+        // only for production - freezes database schema and prevents
+        // RedBean from creating tables if they don't exist yet
         if(\SillyPastebin\Config::production_mode_enabled)
             R::freeze( true );
 
+        // enables RedBean to find src/SillyPastebin/Model/Paste.php
+        // needed because we use different naming conventions than RedBean
         \RedBean_ModelHelper::setModelFormatter(new \SillyPastebin\Helper\ModelFormatter());
 
     }
 
+    /**
+     * Displays a blank form using Twig template.
+     *
+     */
     public function showPasteForm() 
     {
         $template = $this->twig->loadTemplate('form.html');

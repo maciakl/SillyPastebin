@@ -15,7 +15,11 @@ Silly Pastebin was written and tested on a LAMP platform running:
 * MySQL 14.14
 * SQLite 2.8.17
 
-It was not tested and is not guaranteed on Mac or Windows (though there is no reason why it shouldn't).
+It was not tested and is not guaranteed on Mac or Windows (though there is no reason why it shouldn't). If you are running Ubuntu the following command should download and install all the required system wide dependencies:
+
+    sudo aptitude install php5 php5-mysql php5-sqlite php5-curl apache2 mysql-server
+
+If you are running something else, make sure that mysql, sqlite and curl modules are enabled in your PHP installation. Curl is actually only needed for testing so you can skip it.
 
 Silly Pastebin uses [Composer][1] for dependency management. If you don't have it, install it right now:
 
@@ -45,6 +49,14 @@ To install Silly Pastebin clone it into a web accessible directory (like `/var/w
 
     cd /var/www
     git clone https://github.com/maciakl/SillyPastebin.git
+
+Make sure your apache has mod-rewrite enabled and that it supports `.htaccess` files. If you don't want to use the supplied file, make sure your site is configured using these mod-rewrite rules:
+
+    RewriteEngine On
+    RewriteBase /  
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
 
 Next run composer:
 

@@ -1,5 +1,8 @@
 <?php namespace SillyPastebin\Controller;
 
+/**
+ * Handles displaying errors not directly related to pastes.
+ */
 class ErrorController
 {
     private $twig;
@@ -9,6 +12,9 @@ class ErrorController
         $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();
     }
 
+    /**
+     * Displays a 404 page not found error usign Twig template
+     */
     public function show404()
     {
         //header('HTTP/1.0 404 Not Found');
@@ -16,6 +22,11 @@ class ErrorController
         echo $template->render(array('title'=>'404'));
     }
 
+    /**
+     * Displays generic error message using Twig template.
+     *
+     * @param string $errorMessage - a message to be displayed.
+     */
     public function showGenericError($errorMessage)
     {
         $message = empty($errorMessage) ? "Unexpected error." : $errorMessage;
