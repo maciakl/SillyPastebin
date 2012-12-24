@@ -9,6 +9,17 @@ class PasteController
     public function __construct()
     {
         $this->twig = \SillyPastebin\Helper\TwigFactory::getTwig();
+        
+        $host = \SillyPastebin\Config::mysql_host;
+        $db = \SillyPastebin\Config::mysql_db;
+        $user = \SillyPastebin\Config::mysql_user;
+        $pwd = \SillyPastebin\Config::mysql_password;
+
+        R::setup('mysql:host='.$host.';dbname='.$db, $user, $pwd);
+        \RedBean_ModelHelper::setModelFormatter(new \SillyPastebin\Helper\ModelFormatter());
+
+        // uncomment when ready for production
+        //R::freeze( true );
     }
 
     public function showPasteForm() 
@@ -31,7 +42,6 @@ class PasteController
             throw new \InvalidArgumentException("Paste content cannot be empty or null");
         else
         {
-            R::setup();
             $paste = R::dispense("paste");
 
             $paste->content = $content;
@@ -65,7 +75,6 @@ class PasteController
         else
         {
             $pasteID = substr($uri, 1);
-            R::setup();
             $paste = R::load("paste", $pasteID);
 
             if(empty($paste->content))
