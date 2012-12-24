@@ -4,6 +4,12 @@
 
     <form id="paste" method="post" action="/paste">
         <textarea name="content"></textarea><br>
+        <label for="language">Language:
+        <select name="language">
+            <option>text</option>
+            {% include 'language_select.html' %}
+        </select></label>
+
         <input type="submit" value="paste">
     </form>
 

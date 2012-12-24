@@ -21,10 +21,11 @@ class PasteController
      * Adds new paste to the database.
      *
      * @param string $content a new paste content
+     * @param string $language a GeSHi suppoerted language (default is text)
      * @throws InvalidArgumentException if $content is null or empty
      * @return integer valid pasteID (insertion id) 
      */
-    public function addNewPaste($content)
+    public function addNewPaste($content, $language='text')
     {
         if(empty($content))
             throw new \InvalidArgumentException("Paste content cannot be empty or null");
@@ -34,6 +35,7 @@ class PasteController
             $paste = R::dispense("paste");
 
             $paste->content = $content;
+            $paste->language = $language;
 
             return R::store($paste);
         }
@@ -46,7 +48,8 @@ class PasteController
      */
     public function showThankYou($pasteID)
     {
-        echo $this->twig->render("thanks.html", array('pasteID' => $pasteID));
+        echo $this->twig->render("thanks.html", array('title' => 'Thanks', 
+                                                      'pasteID' => $pasteID));
     }
 
     /**
@@ -67,12 +70,23 @@ class PasteController
 
             if(empty($paste->content))
             {
-                echo $this->twig->render("nosuchpaste.html", array('pasteID' => $pasteID));
+                echo $this->twig->render("nosuchpaste.html", array('title' => 'No such paste',
+                                                                   'pasteID' => $pasteID));
             }
             else
             {
+                if($paste->language == 'text' or empty($paste->language))
+                    $highlighted = $paste->content;
+                else
+                {
+                    $geshi = new \GeSHi($paste->content, $paste->language);
+                    $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS);
+                    $highlighted = $geshi->parse_code();
+                }
                 echo $this->twig->render("show.html", array('pasteID' => $pasteID,
-                                                            'content' => $paste->content));
+                                                            'title' => "Paste #".$pasteID,
+                                                            'content' => $highlighted,
+                                                            'raw_content' => $paste->content));
             }
 
         }

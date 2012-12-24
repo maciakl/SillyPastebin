@@ -13,7 +13,7 @@ class ErrorController
     {
         //header('HTTP/1.0 404 Not Found');
         $template = $this->twig->loadTemplate("404.html");
-        echo $template->render(array());
+        echo $template->render(array('title'=>'404'));
     }
 
     public function showGenericError($errorMessage)
@@ -21,6 +21,6 @@ class ErrorController
         $message = empty($errorMessage) ? "Unexpected error." : $errorMessage;
 
         $template = $this->twig->loadTemplate("error.html");
-        echo $template->render(array('errorMessage' => $message));
+        echo $template->render(array('title' => 'Error', 'errorMessage' => $message));
     }
 }

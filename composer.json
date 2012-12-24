@@ -1,7 +1,8 @@
 {
     "require": {
         "twig/twig": "1.*",
-        "gabordemooij/redbean": "dev-master"
+        "gabordemooij/redbean": "dev-master",
+        "easybook/geshi": "dev-master"
     },
 
     "autoload": {

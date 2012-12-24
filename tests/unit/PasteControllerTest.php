@@ -12,8 +12,8 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        if(file_exists("/tmp/red.db"))
-            unlink("/tmp/red.db");
+       // if(file_exists("/tmp/red.db"))
+       //     unlink("/tmp/red.db");
     }
 
     public function testObjectInitialization()
@@ -58,6 +58,15 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
         $this->assertInternalType('integer', $temp);
     }
 
+    public function testAddNewPasteWithValidStringAndPHPLanguage()
+    {
+        $content = "some text to be pasted";
+        $language = "php";
+        $temp = $this->ctrl->addNewPaste($content, $language);
+        $this->assertNotNull($temp);
+        $this->assertInternalType('integer', $temp);
+    }
+
     /**
      * @expectedException        InvalidArgumentException
      */
@@ -98,4 +107,23 @@ class PasteControllerTest extends PHPUnit_Framework_TestCase
     }
     
 
+    public function testShowThankYouWithValidContentAndPHPLanguage()
+    {
+        $content = "some content";
+        $language = "php";
+        $temp = $this->ctrl->addNewPaste($content, $language);
+        
+        $this->expectOutputRegex("/<pre class=\"$language\"/");     
+        $this->ctrl->showPasteContent("/".$temp);
+    }
+
+    public function testShowThankYouWithValidContentAndNonexistentLanguage()
+    {
+        $content = "saxophone";
+        $language = "gandalfthegrayandalsohobbit";
+        $temp = $this->ctrl->addNewPaste($content, $language);
+        
+        $this->expectOutputRegex("/<pre class=\"$language\"/");     
+        $this->ctrl->showPasteContent("/".$temp);
+    }
 }

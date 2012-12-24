@@ -1,12 +1,10 @@
 {% include 'header.html' %}
 
     <h1>PASTE #{{ pasteID }}</h1>
-
-    <code>{{ content }}</code>
+    <code>{{ content|raw }}</code>
 
     <h2>Raw Content</h2>
-    
-    <textarea>{{ content }}</textarea>
+    <textarea>{{ raw_content }}</textarea>
     
     <p><a href="/">new paste</a></p>
 

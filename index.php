@@ -12,7 +12,7 @@ if($uri == '/') {
     {
         if(!empty($_POST["content"]))
         {
-            $pasteID = $pasteCtrl->addNewPaste($_POST["content"]);
+            $pasteID = $pasteCtrl->addNewPaste($_POST["content"], $_POST["language"]);
             $pasteCtrl->showThankYou($pasteID);
         }
         else

@@ -1,6 +1,53 @@
 {
-    "hash": "e7a484dc16d5e275468516a2437d12cf",
+    "hash": "a370f6eaaca83ad2e4df9b94b4e72b7c",
     "packages": [
+        {
+            "name": "easybook/geshi",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/javiereguiluz/geshi",
+                "reference": "6f5f9c621936faf90d92f355967604fe07f7a60f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/javiereguiluz/geshi/archive/6f5f9c621936faf90d92f355967604fe07f7a60f.zip",
+                "reference": "6f5f9c621936faf90d92f355967604fe07f7a60f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">4.3.0"
+            },
+            "time": "2012-09-28 10:33:45",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Benny Baumann",
+                    "email": "BenBE@geshi.org"
+                },
+                {
+                    "name": "Nigel McNie",
+                    "email": "nigel@geshi.org"
+                }
+            ],
+            "description": "GeSHi - Generic Syntax Highlighter. This is an unmodified port of GeSHi project code found on SourceForge.",
+            "homepage": "http://qbnz.com/highlighter",
+            "keywords": [
+                "syntax",
+                "highlight",
+                "highlighter"
+            ]
+        },
         {
             "name": "gabordemooij/redbean",
             "version": "dev-master",
@@ -102,6 +149,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "gabordemooij/redbean": 20
+        "gabordemooij/redbean": 20,
+        "easybook/geshi": 20
     }
 }
